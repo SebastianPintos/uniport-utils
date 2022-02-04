@@ -1,2 +1,2 @@
-# bookstore_utils-go
+# Uniport utils
 Go utils shared across our entire microservices
