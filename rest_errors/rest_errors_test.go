@@ -1,10 +1,10 @@
 package rest_errors
 
 import (
-	"testing"
+	"errors"
 	"github.com/stretchr/testify/assert"
 	"net/http"
-	"errors"
+	"testing"
 )
 
 func TestNewInternalServerError(t *testing.T) {

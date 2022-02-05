@@ -1,4 +1,4 @@
-module github.com/federicoleon/bookstore_utils-go
+module github.com/sebastianpintos/uniport-utils
 
 go 1.14
 
