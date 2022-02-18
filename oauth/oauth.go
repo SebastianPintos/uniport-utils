@@ -15,8 +15,6 @@ const (
 	headerXPublic   = "X-Public"
 	headerXClientId = "X-Client-Id"
 	headerXCallerId = "X-Caller-Id"
-
-	paramAccessToken = "access_token"
 )
 
 type accessToken struct {
@@ -61,7 +59,7 @@ func AuthenticateRequest(request *http.Request, oauthURL string) rest_errors.Res
 
 	cleanRequest(request)
 
-	accessTokenId := strings.TrimSpace(request.URL.Query().Get(paramAccessToken))
+	accessTokenId := strings.TrimSpace(request.Header.Get("Authorization"))
 	if accessTokenId == "" {
 		return nil
 	}
