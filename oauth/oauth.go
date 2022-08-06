@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/sebastianpintos/uniport-utils/config"
 	"github.com/sebastianpintos/uniport-utils/rest_errors"
 	"io/ioutil"
 	"net/http"
@@ -52,7 +53,7 @@ func GetClientId(request *http.Request) int64 {
 	return clientId
 }
 
-func AuthenticateRequest(request *http.Request, oauthURL string) rest_errors.RestErr {
+func AuthenticateRequest(request *http.Request) rest_errors.RestErr {
 	if request == nil {
 		return nil
 	}
@@ -64,7 +65,7 @@ func AuthenticateRequest(request *http.Request, oauthURL string) rest_errors.Res
 		return nil
 	}
 
-	at, err := getAccessToken(accessTokenId, oauthURL)
+	at, err := getAccessToken(accessTokenId)
 	if err != nil {
 		if err.Status() == http.StatusNotFound {
 			return nil
@@ -84,8 +85,8 @@ func cleanRequest(request *http.Request) {
 	request.Header.Del(headerXCallerId)
 }
 
-func getAccessToken(accessTokenId string, oauthURL string) (*accessToken, rest_errors.RestErr) {
-	response, _ := http.Get(fmt.Sprintf("%s/oauth/access_token/%s", oauthURL, accessTokenId))
+func getAccessToken(accessTokenId string) (*accessToken, rest_errors.RestErr) {
+	response, _ := http.Get(fmt.Sprintf("%s/oauth/access_token/%s", config.OauthURL, accessTokenId))
 	resp, _ := ioutil.ReadAll(response.Body)
 	if response.StatusCode > 299 {
 		restErr, err := rest_errors.NewRestErrorFromBytes(resp)
